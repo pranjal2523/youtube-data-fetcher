@@ -1,5 +1,5 @@
 """
-URL configuration for youbtube_data_fetch project.
+URL configuration for youtube_data_fetch project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/

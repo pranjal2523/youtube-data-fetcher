@@ -1,5 +1,5 @@
 """
-ASGI config for youbtube_data_fetch project.
+ASGI config for youtube_data_fetch project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'youbtube_data_fetch.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'youtube_data_fetch.settings')
 
 application = get_asgi_application()
