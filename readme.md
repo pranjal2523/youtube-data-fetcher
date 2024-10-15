@@ -14,7 +14,7 @@ The **YouTube Channel Video and Comments Data Fetcher** is a Python application 
 ## Prerequisites
 
 - Python 3.x
-- Flask or Django (depending on your implementation)
+- Django
 - Requests library
 - OpenPyXL or Pandas for Excel file handling
 
