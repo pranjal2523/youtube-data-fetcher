@@ -41,6 +41,9 @@ The **YouTube Channel Video and Comments Data Fetcher** is a Python application 
     pip install -r requirements.txt
     ```
 4. Create a .env file in the root directory to store your environment variables (API keys, etc.).
+    ```
+    API_KEY = "API_KEY_VALUE"
+    ```
 
 5. Run the application:
     ```
