@@ -1,5 +1,11 @@
 # YouTube Channel Video and Comments Data Fetcher
 
+## Application Screenshot
+
+Here is a screenshot of the application:
+
+![Application Screenshot](image.png)
+
 ## Overview
 
 The **YouTube Channel Video and Comments Data Fetcher** is a Python application designed to fetch and download data from a specified YouTube channel. It allows users to retrieve basic information about videos and the latest comments (with replies) from the channel, storing the results in an Excel file with separate sheets for video data and comments data.
