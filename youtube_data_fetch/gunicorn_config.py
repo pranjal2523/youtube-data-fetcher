@@ -6,7 +6,7 @@ import multiprocessing
 # user running the application
 user = "root"
 
-wsgi_app = "backend.wsgi:application"
+wsgi_app = "youtube_data_fetch.wsgi:application"
 
 workers = multiprocessing.cpu_count() * 2 + 1
 
