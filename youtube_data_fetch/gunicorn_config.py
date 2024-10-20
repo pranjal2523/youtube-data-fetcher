@@ -12,7 +12,7 @@ workers = multiprocessing.cpu_count() * 2 + 1
 
 bind = "0.0.0.0:8000"
 
-accesslog = "/backend/logs/backend-access.log"
-errorlog = "/backend/logs/backend-error.log"
+# accesslog = "/youtube_data_fetch/logs/backend-access.log"
+# errorlog = "/youtube_data_fetch/logs/backend-error.log"
 
 capture_output = True
