@@ -8,8 +8,17 @@ ENV PYTHONUNBUFFERED 1
 # Set the working directory inside the container
 WORKDIR /youtube_data_fetch
 
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    && rm -rf /var/lib/apt/lists/*
 # Copy requirements.txt first to leverage Docker cache
 COPY requirements.txt /youtube_data_fetch/
+
+# Create a virtual environment and install dependencies
+RUN python -m venv /py \
+    && /py/bin/pip install --upgrade pip \
+    && /py/bin/pip install -r /tmp/requirements.txt \
+    && rm -rf /tmp
 
 # Install dependencies
 RUN pip install --upgrade pip
