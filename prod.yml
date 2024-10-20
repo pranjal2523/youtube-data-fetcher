@@ -12,8 +12,8 @@ services:
       sh -c "python manage.py collectstatic --noinput &&
              gunicorn -c gunicorn_config.py"
     volumes:
-      - ./youtube_data_fetch:/app
-      - ./youtube_data_fetch/media:/app/media
+      - ./youtube_data_fetch:/youtube_data_fetch
+      - ./youtube_data_fetch/media:/youtube_data_fetch/media
     env_file:
       - .env
     expose:
@@ -24,8 +24,8 @@ services:
     container_name: nginx_server
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./youtube_data_fetch/media:/app/media
-      - ./youtube_data_fetch/static:/app/static
+      - ./youtube_data_fetch/media:/youtube_data_fetch/media
+      - ./youtube_data_fetch/static:/youtube_data_fetch/static
     ports:
       - "80:80"
     depends_on:
