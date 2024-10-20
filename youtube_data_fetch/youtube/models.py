@@ -45,3 +45,11 @@ class ChannelData(models.Model):
 
     def __str__(self):
         return self.user_name
+
+
+class Token(models.Model):
+    access_token = models.TextField()
+    refresh_token = models.TextField()
+
+    def __str__(self):
+        return self.access_token

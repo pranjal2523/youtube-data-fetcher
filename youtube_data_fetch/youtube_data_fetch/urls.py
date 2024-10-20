@@ -21,7 +21,8 @@ from .settings import DEBUG, MEDIA_ROOT, MEDIA_URL
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('youtube.urls')),  # Include URLs from the users app
+    path('', include('youtube.urls')),  # Include URLs from the youtube app
+    path('auth/', include('users.urls')),  # Include URLs from the users app
 ]
 
 
