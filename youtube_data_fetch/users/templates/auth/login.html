@@ -118,11 +118,11 @@
                     <form id="loginForm">
                         <div class="mb-3">
                             <label for="loginEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" required>
+                            <input type="email" class="form-control" id="loginEmail" required placeholder="Enter Email">
                         </div>
                         <div class="mb-3">
                             <label for="loginPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" required>
+                            <input type="password" class="form-control" id="loginPassword" required placeholder="Enter Password">
                         </div>
                         <button type="submit" class="btn btn-custom w-100 animate__animated animate__pulse mt-4">Login</button>
                     </form>
@@ -172,18 +172,26 @@
                 },
                 body: JSON.stringify({ email, password }),
             })
-            .then(response => response.json())
+            .then(response => {
+                hideLoader(); // Hide loader regardless of the response
+                if (!response.ok) {
+                    // If the response is not okay, handle the error
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.error || 'Invalid Credentials. Please try again.');
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
-                hideLoader();
                 localStorage.setItem('accessToken', data.access);
                 localStorage.setItem('refreshToken', data.refresh);
                 window.location.href = '/home/';
             })
             .catch(error => {
-                hideLoader();
                 console.error('Error:', error);
-                alert('Login failed. Please try again.');
+                alert(error.message); // Display the error message from the server
             });
+            
         });
 
         document.getElementById('registerForm').addEventListener('submit', function(e) {

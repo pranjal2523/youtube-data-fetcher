@@ -10,8 +10,6 @@ services:
       - "8083:8000"
     volumes:
       - ./youtube_data_fetch:/youtube_data_fetch
-      - ./youtube_data_fetch/media:/youtube_data_fetch/media
-      - ./youtube_data_fetch/static:/youtube_data_fetch/static
     command: >
       sh -c "python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
