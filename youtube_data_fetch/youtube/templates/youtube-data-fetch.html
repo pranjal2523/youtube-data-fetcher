@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}GoQuest Portal - Home{% endblock %}
+
+{% block content %}
+<div class="content-box">
+    <h1 class="mb-4">Welcome to GoQuest Portal</h1>
+    <p class="lead mb-4">Fetch videos and comments from a YouTube channel</p>
+    
+    <div class="row justify-content-center mb-3">
+        <div class="col-md-6 col-sm-12 mb-2">
+            <input type="text" class="form-control" name="youtube_url" id="youtube_url" placeholder="Enter YouTube URL" />
+        </div>
+        <div class="col-md-4 col-sm-12 mb-2">
+            <input type="number" class="form-control" name="comment_count" id="comment_count" placeholder="Number of Comments (Default: 100)" min="1" />
+        </div>
+    </div>
+    
+    <div id="error_message" class="text-danger mb-3"></div>
+    
+    <button class="btn btn-primary btn-lg mb-4" id="fetch_data_button">
+        <i class="fas fa-sync-alt"></i> Fetch Data
+    </button>
+
+    <div id="download_buttons" style="display: none;">
+        <button class="btn btn-success btn-lg m-2" id="download_video_button">
+            <i class="fas fa-video"></i> Download Videos
+        </button>
+        <button class="btn btn-info btn-lg m-2" id="download_comment_button">
+            <i class="fas fa-comments"></i> Download Comments
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    async function fetchYouTubeData() {
+        const youtubeUrl = document.getElementById('youtube_url').value.trim();
+        let commentCount = document.getElementById('comment_count').value.trim();
+        const errorMessage = document.getElementById('error_message');
+        const fetchButton = document.getElementById('fetch_data_button');
+        const downloadButtons = document.getElementById('download_buttons');
+        
+        errorMessage.innerHTML = '';
+        downloadButtons.style.display = 'none';
+
+        if (!youtubeUrl) {
+            errorMessage.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please enter a valid YouTube URL!';
+            return;
+        }
+
+        commentCount = commentCount || 100;
+
+        const apiUrl = '/fetch-youtube-data/';
+        const requestBody = {
+            youtube_url: youtubeUrl,
+            comment_count: commentCount
+        };
+
+        fetchButton.disabled = true;
+        fetchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fetching...';
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            downloadButtons.style.display = 'block';
+            document.getElementById('download_video_button').onclick = () => {
+                window.location.href = data.video_file;
+            };
+            document.getElementById('download_comment_button').onclick = () => {
+                window.location.href = data.comment_file;
+            };
+
+            console.log('Video File:', data.video_file);
+            console.log('Comment File:', data.comment_file);
+        } catch (error) {
+            console.error('Error fetching YouTube data:', error);
+            errorMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to fetch data. Please try again later.';
+        } finally {
+            fetchButton.disabled = false;
+            fetchButton.innerHTML = '<i class="fas fa-sync-alt"></i> Fetch Data';
+        }
+    }
+
+    document.getElementById('fetch_data_button').addEventListener('click', fetchYouTubeData);
+</script>
+{% endblock %}

@@ -22,3 +22,14 @@ class UserSerializer(serializers.ModelSerializer):
             full_name=validated_data['full_name']
         )
         return user
+
+class ValidateUserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'password')

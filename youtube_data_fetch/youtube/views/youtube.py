@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 import os
 from datetime import timedelta
 from django.utils import timezone
@@ -9,10 +11,20 @@ from rest_framework.response import Response
 from rest_framework import status
 from ..serializers import ChannelDataSerializer
 from rest_framework.permissions import AllowAny
+from django.contrib.auth.decorators import login_required
 
+def index(request):
+    """Redirect to the admin homepage"""
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('youtube:home'))
+    return HttpResponseRedirect(reverse('users:user_login'))
+
+@login_required()
 def home(request):
     return render(request, 'home.html')
 
+def youtube_fetch_api(request):
+    return render(request, 'youtube-data-fetch.html')
 
 class YouTubeDataAPIView(APIView):
     permission_classes = [AllowAny]

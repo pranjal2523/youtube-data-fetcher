@@ -89,6 +89,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'youtube_data_fetch.wsgi.application'
 
+LOGIN_URL = '/auth/user_login/'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
