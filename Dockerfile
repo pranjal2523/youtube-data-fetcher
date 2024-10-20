@@ -17,7 +17,7 @@ COPY requirements.txt /youtube_data_fetch/
 # Create a virtual environment and install dependencies
 RUN python -m venv /py \
     && /py/bin/pip install --upgrade pip \
-    && /py/bin/pip install -r /tmp/requirements.txt \
+    && /py/bin/pip install -r requirements.txt \
     && rm -rf /tmp
 
 # Install dependencies
